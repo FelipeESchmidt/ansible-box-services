@@ -18,9 +18,14 @@
           <div class="components">
             <a href="#nav-servicos" class="component">Servidor</a>
             <a href="#nav-linguagem" class="component">Linguagem</a>
+            <a href="#nav-servico" class="component">Serviços</a>
+            <a href="#nav-samba" class="component">Samba</a>
             <a href="#nav-proxy" class="component">Proxy</a>
+            <a href="#nav-email" class="component">Email</a>
+            <a href="#nav-firewall" class="component">UFW</a>
+            <a href="#nav-ftp" class="component">FTP</a>
+            <a href="#nav-php" class="component">Banco</a>
             <a href="#nav-vagrant" class="component">Vagrant</a>
-            <a href="#nav-squid" class="component">Squid</a>
           </div>
         </nav>
       </div>
@@ -55,17 +60,55 @@
           <div class="text-part">
             <h3>Linguagem de provisionamento</h3>
             <p class="descricao">
-              A linguagem de provisionamento utiizada foi a Puppet, e foi
-              escolhida pois é a mais utilizada e desta maneira é mais fácil de
-              encontrar documentação online, fazendo com que seja mais fácil
-              encontrar e resolver erros durante o desenvolvimento do
-              provisionamento com Vagrant.
+              A linguagem de provisionamento utiizada foi a Puppet, e foi escolhida pois é uma ferramenta de automação de TI open source para provisionamento, gerenciamento de configurações, implantação de aplicações, orquestraçãoe muitos outros processos manuais de TI.
             </p>
           </div>
           <div class="image-part">
             <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Puppet_transparent_logo.svg/2560px-Puppet_transparent_logo.svg.png"
-              alt="Puppet Logo"
+              src="https://miro.medium.com/max/447/1*eGsQ4xEeXAL_eCoE3Ld1uw.png"
+              alt="Ansible Logo"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="m-top" id="nav-servico">
+        <div class="container" id="showcase-down">
+          <div class="divisor">
+            <div class="text-part">
+              <h3>Serviços provisionados</h3>
+              <p class="descricao">
+                Foram provisionados 6 tipos de serviços, dos quais foram aplicados de forma simples e direta para cunho de estudo. Os serviços implementados são:<br>
+                1. Samba<br>
+                2. Proxy<br>
+                3. Email<br>
+                4. Firewall<br>
+                5. Serviços de arquivos<br>
+                6. Banco de dados<br>
+              </p>
+            </div>
+            <div class="image-part">
+              <img
+                src="https://media0.giphy.com/media/rX0RqM4T4Dzqs8JBam/giphy.gif?cid=790b761138da9c80f4286d45aab09576303ec0c9837d8056&rid=giphy.gif&ct=s"                
+                alt="6 Logo"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="m-top" id="nav-samba">
+        <div class="container divisor reverse" id="showcase-right">
+          <div class="text-part">
+            <h3>Linguagem de provisionamento - Samba</h3>
+            <p class="descricao">
+              O primeiro serviço utilizado é o Samba, ele é um software livre que permite realizar a reimplementação do protocolo de rede SMB/CIFS. Embora tenha sido criado para integração com um domínio de servidor Windows, ele é uma boa opção para o Linux, e para a maioria dos sistemas operacionais do modelo Unix
+            </p>
+          </div>
+          <div class="image-part">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Logo_Samba_Software.svg/800px-Logo_Samba_Software.svg.png"
+              alt="Samba Logo"
             />
           </div>
         </div>
@@ -75,9 +118,9 @@
         <div class="container" id="showcase-down">
           <div class="divisor">
             <div class="text-part">
-              <h3>Serviço provisionado</h3>
+              <h3>Serviço provisionado - Proxy  </h3>
               <p class="descricao">
-                O serviço utilizado nesta server proxy foi o Squid, pois o uso
+                O segundo serviço utilizado é o server proxy com o Squid, pois o uso
                 do mesmo como Proxy/Cache é uma das opções mais utilizadas em
                 ambientes corporativos que adotam software livre para
                 administrar a rede, seja através da otimização e melhoria do
@@ -110,6 +153,78 @@
             <li><a href="https://wolframalpha.com">wolframalpha.com</a></li>
             <li><a href="https://nationmaster.com">nationmaster.com</a></li>
           </ul>
+        </div>
+      </section>
+
+      <section class="m-top" id="nav-email">
+        <div class="container divisor reverse" id="showcase-right">
+          <div class="text-part">
+            <h3>Linguagem de provisionamento - Email</h3>
+            <p class="descricao">
+              O terceito serviço utilizado é o Postfix , com ele é possível fazer a instalação de um webmail — uma caixa de e-mail que pode ser acessada com uso do navegador — chamado SquirrelMail, que se caracteriza por ser altamente leve e compatível com a maioria dos browsers, até mesmo os mais antigos.
+            </p>
+          </div>
+          <div class="image-part">
+            <img
+              src="https://cyberjcts.com/wp-content/uploads/2020/12/LogoPostfix1-300x227.png"
+              alt="Postfix Logo"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="m-top" id="nav-firewall">
+        <div class="container" id="showcase-down">
+          <div class="divisor">
+            <div class="text-part">
+              <h3>Serviços provisionados - Firewall</h3>
+              <p class="descricao">
+                O quarto serviço utilizado é o firewall com UFW, ele é um componente muito importante para a segurança de qualquer dispositivo que realiza conexões com a internet. Mesmo o Linux tendo ótimas ferramentas de segurança pré-instaladas, quanto mais seguro, melhor.
+              </p>
+            </div>
+            <div class="image-part">
+              <img
+                src="https://i0.wp.com/www.dagorret.net/wp-content/uploads/2021/09/ufw.jpg?fit=1024%2C768&ssl=1"                
+                alt="UFW Logo"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="m-top" id="nav-ftp">
+        <div class="container divisor reverse" id="showcase-right">
+          <div class="text-part">
+            <h3>Linguagem de provisionamento - FTP</h3>
+            <p class="descricao">
+              O quinto serviço utilizado é o FTP com VSFTPD, ele é um servidor FTP estável, seguro e rápido. É um dos mais conhecidos e utilizados, possuindo uma documentação muito acessível e que é de fácil acesso.
+            </p>
+          </div>
+          <div class="image-part">
+            <img
+              src="https://www.linuxcloudvps.com/blog/wp-content/uploads/2014/03/vsftpd.jpg"
+              alt="VSFTPD Logo"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="m-top" id="nav-php">
+        <div class="container" id="showcase-down">
+          <div class="divisor">
+            <div class="text-part">
+              <h3>Serviços provisionados - Banco de dados</h3>
+              <p class="descricao">
+                O sexto serviço utilizado é o banco de dados com PHP, é utilizado PHP pois é capaz de suportar grandes quantidades de dados, e com isso a linguagem consegue executar muitas funções e consumir muitos recursos ao mesmo tempo sem comprometer o desempenho e velocidade do servidor.
+              </p>
+            </div>
+            <div class="image-part">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Webysther_20160423_-_Elephpant.svg/2560px-Webysther_20160423_-_Elephpant.svg.png"                
+                alt="PHP Logo"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -171,90 +286,8 @@
             </li>
           </ol>
         </div>
-      </section>
-
-      <section class="m-top" id="nav-squid">
-        <div class="container">
-          <h3>Squid File Used</h3>
-          <xmp
->                    
-                acl all src all
-                acl manager proto cache_object
-
-                acl SSL_ports port 443
-                acl Safe_ports port 80		
-                acl Safe_ports port 21		
-                acl Safe_ports port 443		
-                acl Safe_ports port 70		
-                acl Safe_ports port 210	
-                acl Safe_ports port 1025-65535
-                acl Safe_ports port 280		
-                acl Safe_ports port 488		
-                acl Safe_ports port 591		
-                acl Safe_ports port 777		
-                acl CONNECT method CONNECT
-
-                http_access deny !Safe_ports
-
-                http_port 3128
-
-                coredump_dir /var/spool/squid
-
-                refresh_pattern ^ftp:		1440	20%	10080
-                refresh_pattern ^gopher:	1440	0%	1440
-                refresh_pattern -i (/cgi-bin/|\?) 0	0%	0
-                refresh_pattern .		0	20%	4320
-
-                http_access allow localhost
-
-                acl rede_interna src 192.168.60.0/24
-                acl SITES_NEGADOS dstdomain "/etc/squid/denyWebsites.lst"
-
-                http_access allow rede_interna !SITES_NEGADOS
-
-                http_access deny all
-            </xmp
-          >
-          <ol>
-            <li>
-              Crie um diretório com o nome <strong>squid</strong>,<strong
-                >config</strong
-              >
-              e <strong>reload</strong>:
-              <ul>
-                <li>
-                  A pasta <strong>squid</strong> é para garantir que o squid
-                  está instalado na máquina.
-                </li>
-                <li>
-                  A pasta <strong>config</strong> é onde se localiza todas as
-                  configurações do squid, tendo suas funcionalidades, como
-                  cache, whitelist de sites e blacklist de sites.
-                </li>
-                <li>
-                  A pasta <strong>reload</strong> é para garantir que o serviço
-                  seja recarregado, garantindo que as configurações sejam
-                  carregadas.
-                </li>
-              </ul>
-            </li>
-            <li>
-              Dentro do <strong>/manifests/default.pp</strong> é necessário
-              adicionar as pastas criadas, para que o Puppet possa configurar.
-            </li>
-            <li>
-              Nosso grupo criou um arquivo chamado
-              <strong>denyWebsites.lst</strong>, dentro dele fica todos os urls
-              que estão bloqueados. Caso exista a vontade de alterar os URLs
-              bloqueados ou adicionar, é necessário seguir esse padrão:
-              <ul>
-                <li><strong>.urlDoSite.com</strong></li>
-              </ul>
-            </li>
-          </ol>
-        </div>
-      </section>
-    </main>
+      </section>      
+    </main> 
 
     <footer>
       <div class="container showcase">
@@ -266,7 +299,7 @@
         </div>
         <div class="showcase-image">
           <a
-            href="https://github.com/FelipeESchmidt/vagrant-puppet-proxy"
+            href="https://github.com/FelipeESchmidt/ansible-box-services"
             target="blank"
             ><img
               src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
