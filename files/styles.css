@@ -1,0 +1,147 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+body{
+    background-color: whitesmoke;
+}
+
+nophone{
+    display: none;
+}
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1%;
+}
+.navigation {
+    padding: 10px 0;
+    background-color: #373E40;
+}
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.m-top{
+    padding: 50px;
+}
+xmp {
+    margin-top: 5px;
+    background-color: #B7D5D4;
+}
+.components {
+    display: flex;
+}
+.title {
+    color: white;
+}
+.component {
+    margin-left: 10px;
+    color: white;    
+}
+.showcase-text {
+    width: 60%;
+    margin:auto
+}
+.showcase-text h2{
+    font-size: 34px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.showcase-text p{
+    font-size: 19px;
+    text-align: center;
+    padding: 7px;
+}
+.showcase-image{
+    width: 40%;
+}
+.showcase-image img{
+    width: 100%;
+}
+.showcase {
+    min-height: 225px;
+    display: flex;
+    justify-content: space-between;
+}
+
+a{
+    text-decoration: none;
+}
+a:link:hover {
+    transform: scale(1.1);
+    transition: 100ms;
+}
+ul, ol {
+    list-style-position: inside;
+}
+ol, ol > li {
+    margin: 1em 0;
+}
+ul > li {
+    margin-top: 0.5em;
+    margin-left: 2em;
+}
+
+.divisor{
+    display: flex;
+}
+
+.reverse{
+    flex-direction: row-reverse;
+}
+
+.divisor .text-part{
+    width: 50%;
+}
+
+.divisor .image-part{
+    width: 40%;
+    margin: 0 5%;
+}
+
+.divisor .image-part img{
+    width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+    nav {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    .showcase-image{
+        display: none;
+    }
+    .showcase-text {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 870px) {
+    .image-part{
+        display: none;
+    }
+    .divisor .text-part {
+        width: 100%;
+    }
+    .m-top{
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 528px) {
+    nophone {
+        display: flex;
+    }
+    header, main, footer{
+        display: none;
+    }
+}

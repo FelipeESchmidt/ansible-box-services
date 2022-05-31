@@ -1,0 +1,260 @@
+#PLAYBOOK
+---
+- name: Instalando o basico # Esta parte instala todos os serviços
+  hosts: all
+  remote_user: root
+  become: true
+
+  tasks:
+    - name: update packages # Atualiza os pacotes da máquina
+      become: true
+      apt:
+        update_cache: yes # Atualiza o cache
+
+    - name: apt update # Atualiza informações dos pacotes
+      apt: update_cache=yes
+        force_apt_get=yes
+        cache_valid_time=3600
+
+    - name: apt upgrade # Atualiza os pacotes já instalados na máquina
+      apt: upgrade=dist
+        force_apt_get=yes
+        force_apt_get=yes
+        cache_valid_time=3600
+
+    - name: install apache2 # Instala apache2
+      become: true
+      apt:
+        name: apache2
+        state: latest
+
+    - name: install samba # Instala samba
+      apt:
+        name: ["samba"]
+        state: latest
+
+    - name: install squid3 # Instala squid3
+      become: true
+      apt:
+        name: squid3
+        state: latest
+
+    - name: install postfix # Instala postfix
+      become: true
+      apt:
+        name: postfix
+        state: present
+
+    - name: instala o mailutils # Instala mailutils
+      become: true
+      apt:
+        name: mailutils
+        state: present
+
+    - name: instala o mutt # Instala mutt
+      become: true
+      apt:
+        name: mutt
+        state: present
+
+    - name: install vsftpd # Instala vsftpd
+      become: true
+      apt:
+        name: vsftpd
+        state: present
+
+    - name: install php # Instala php
+      become: true
+      apt:
+        name: php
+        state: present
+
+    - name: install phpmyadmin # Instala phpmyadmin
+      become: true
+      apt:
+        name: phpmyadmin
+        state: present
+
+#----------------------------------------------------------------------------------------------------------------------------------------------
+
+- name: play 1 - samba # Realiza todas as configurações do samba
+  hosts: all
+  gather_facts: false
+  become: true
+  tasks:
+    - name: create shared directory # Cria um diretório para ser compartilhado
+      file:
+        path: /home/vagrant/samba/
+        state: directory
+        mode: "0775"
+        owner: "vagrant"
+        group: "vagrant"
+
+    - name: send arquivoImportante.txt # Envia o arquivo para pasta
+      copy:
+        src: ./config/arquivoImportante.txt
+        dest: /home/vagrant/samba/
+        mode: "0766"
+        owner: "vagrant"
+        group: "vagrant"
+
+    - name: add shared directory config # Enviando o arquivo de configuração do samba
+      blockinfile:
+        path: /etc/samba/smb.conf
+        insertafter: EOF
+        block: |
+          [samba]
+            comment = Samba on Ubuntu
+            path = /home/vagrant/samba
+            read only = yes
+           browsable = yes
+      notify: Reload Samba
+
+    - name: set Samba passwords for each user # Setando a senha de todos usuários
+      shell: "printf '123\n123\n' | smbpasswd -a vagrant"
+
+  handlers:
+    - name: Reload Samba # Recarrega o samba
+      service:
+        name: smbd
+        state: restarted
+
+    - name: reinicia o apache2 # Recarrega o apache2
+      service:
+        name: apache2
+        state: restarted
+
+#----------------------------------------------------------------------------------------------------------------------------------------------
+
+- name: play 2 - proxy # Realiza todas as configurações do proxy
+  hosts: all
+  remote_user: root
+  become: true
+
+  tasks:
+    - name: move arquivo html # Move os arquivos do site (index.html)
+      become: true
+      copy:
+        src: ./files/index.html
+        dest: /var/www/html/index.html
+
+    - name: move arquivo css # Move os arquivos do site (styles.css)
+      become: true
+      copy:
+        src: ./files/styles.css
+        dest: /var/www/html/styles.css
+
+    - name: move arquivo javascript # Move os arquivos do site (app.js)
+      become: true
+      copy:
+        src: ./files/app.js
+        dest: /var/www/html/app.js
+
+    - name: move arquivo squid config # Move o arquivo de configuração do proxy
+      become: true
+      copy:
+        src: ./config/squid.conf
+        dest: /etc/squid/squid.conf
+
+    - name: move lista de sites bloqueados # Move o arquivo com os sites bloqueados
+      become: true
+      copy:
+        src: ./config/denyWebsites.lst
+        dest: /etc/squid/denyWebsites.lst
+
+    - name: reinicia o squid3 # Recarrega o squid3
+      service:
+        name: squid
+        state: restarted
+
+    - name: reinicia o apache2
+      service:
+        name: apache2
+        state: restarted
+
+#----------------------------------------------------------------------------------------------------------------------------------------------
+
+- name: play 3 - post mail
+  hosts: all
+  remote_user: root
+  become: true
+
+  tasks:
+    - name: starta o servico do postfix
+      become: true
+      command: systemctl start postfix
+
+    - name: move arquivo
+      copy:
+        src: ./files/index.html
+        dest: /var/www/html/index.html
+
+#----------------------------------------------------------------------------------------------------------------------------------------------
+
+- name: play 4 - Firewall
+  hosts: all
+  remote_user: root
+  become: true
+
+  tasks:
+    - name: permite conexões por SSH
+      shell: sudo ufw allow 22/tcp
+
+    - name: bloquear todos os ips de SSH
+      shell: sudo ufw default deny incoming
+
+    - name: bloquear ip especifico
+      shell: sudo ufw deny from 203.0.113.4
+
+    - name: permite acesso a todas as páginas www
+      shell: sudo ufw allow www
+
+    - name: permite acesso a porta 80
+      shell: sudo ufw allow 80/tcp
+
+    - name: permite conexoes FTP
+      shell: sudo ufw allow 21/tcp
+
+    - name: permite conexoes SMTP
+      shell: sudo ufw allow smtp
+
+    - name: permite conexoes HTTP
+      shell: sudo ufw allow 443
+
+    - name: permite conexoes MySQL
+      shell: sudo ufw allow 3306
+
+    - name: desliga o Firewall
+      shell: sudo ufw disable
+
+#----------------------------------------------------------------------------------------------------------------------------------------------
+
+- name: play 5 - FTP
+  hosts: all
+  remote_user: root
+  become: true
+
+  tasks:
+    - name: starta o vsftpd
+      service:
+        name: vsftpd
+        state: started
+
+    - name: move config file
+      become: true
+      copy:
+        src: ./config/vsftpd.conf
+        dest: /etc/vsftpd.conf
+
+    - name: create a login user
+      become: true
+      user:
+        name: teste
+        password: "$6$vOBO1TyfSTrtR$zq9vCB2EsfOWs0pIo4hhsbEO1DlfGhVWNu7ZSoWcfX3ntvZ6YfzHRBgMaPDmhqWa07jNg2IQRUcKy7tAEim5G0"
+
+    - name: reinicia o vsftpd
+      service:
+        name: vsftpd
+        state: restarted
+
+#----------------------------------------------------------------------------------------------------------------------------------------------

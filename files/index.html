@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+    <title translate="no">Trabalho 2 | Proxy</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <nophone><h1>Não aceitamos celulares</h1></nophone>
+
+    <header class="navigation">
+      <div class="container">
+        <nav>
+          <h1 class="title">Trabalho 2 - Proxy</h1>
+          <div class="components">
+            <a href="#nav-servicos" class="component">Servidor</a>
+            <a href="#nav-linguagem" class="component">Linguagem</a>
+            <a href="#nav-proxy" class="component">Proxy</a>
+            <a href="#nav-vagrant" class="component">Vagrant</a>
+            <a href="#nav-squid" class="component">Squid</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="m-top" id="nav-servicos">
+        <div class="container divisor" id="showcase-left">
+          <div class="text-part">
+            <h3>Servidor Utilizado</h3>
+            <p class="descricao">
+              O servidor utilizado nesta box foi o <i>Apache</i> (apache2),
+              pois, ele é o servidor mais popular e também é muito confiável. O
+              apache é utilizado por gigantes como Netflix, Airbnb, eBay, Cisco,
+              BBC, IBM, Nike, Microsoft, entre muitos são apenas alguns exemplos
+              que usufruem das funcionalidades desse servidor que atende às
+              solicitações de acesso de conteúdo de vários usuários
+              simultaneamente.
+            </p>
+          </div>
+          <div class="image-part">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Apache_HTTP_server_logo_%282019-present%29.svg/2560px-Apache_HTTP_server_logo_%282019-present%29.svg.png"
+              alt="Apache Logo"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="m-top" id="nav-linguagem">
+        <div class="container divisor reverse" id="showcase-right">
+          <div class="text-part">
+            <h3>Linguagem de provisionamento</h3>
+            <p class="descricao">
+              A linguagem de provisionamento utiizada foi a Puppet, e foi
+              escolhida pois é a mais utilizada e desta maneira é mais fácil de
+              encontrar documentação online, fazendo com que seja mais fácil
+              encontrar e resolver erros durante o desenvolvimento do
+              provisionamento com Vagrant.
+            </p>
+          </div>
+          <div class="image-part">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Puppet_transparent_logo.svg/2560px-Puppet_transparent_logo.svg.png"
+              alt="Puppet Logo"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="m-top" id="nav-proxy">
+        <div class="container" id="showcase-down">
+          <div class="divisor">
+            <div class="text-part">
+              <h3>Serviço provisionado</h3>
+              <p class="descricao">
+                O serviço utilizado nesta server proxy foi o Squid, pois o uso
+                do mesmo como Proxy/Cache é uma das opções mais utilizadas em
+                ambientes corporativos que adotam software livre para
+                administrar a rede, seja através da otimização e melhoria do
+                desempenho da rede atuando como servidor de cache ou como proxy,
+                implementando restrições de acesso à Internet, que nem sempre é
+                possível fazer através do firewall.
+              </p>
+            </div>
+            <div class="image-part">
+              <img
+                src="https://www.arduinoecia.com.br/wp-content/uploads/2020/02/squid-logo-png.png"
+                alt="Squid Logo"
+              />
+            </div>
+          </div>
+          <br />
+          <p class="descricao">
+            O serviço provisionado foi um servidor proxy no qual seu objetivo é
+            bloquear sites de buscas, tais quais:
+          </p>
+          <ul>
+            <li><a href="https://google.com">google.com</a></li>
+            <li><a href="https://bing.com">bing.com</a></li>
+            <li><a href="https://yahoo.com">yahoo.com</a></li>
+            <li><a href="https://duckduckgo.com">duckduckgo.com</a></li>
+            <li><a href="https://ask.com">ask.com</a></li>
+            <li><a href="https://aol.com">aol.com</a></li>
+            <li><a href="https://searchencrypt.com">searchencrypt.com</a></li>
+            <li><a href="https://msn.com">msn.com</a></li>
+            <li><a href="https://wolframalpha.com">wolframalpha.com</a></li>
+            <li><a href="https://nationmaster.com">nationmaster.com</a></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="m-top" id="nav-vagrant">
+        <div class="container">
+          <h3>Vagrant File Used</h3>
+          <xmp
+>    
+                Vagrant.configure("2") do |config|
+
+                    config.vm.define "server" do |server|
+                        server.vm.box = "ubuntu/bionic64"
+                        server.vm.network "private_network", ip: $ip
+
+                        server.vm.provider "virtualbox" do |virtualboxMachine|
+                        virtualboxMachine.name = "serverApacheAndPuppet"
+                        end
+                    end
+
+                    config.vm.provision :"shell", path: "installpuppet.sh"
+                    config.vm.provision :puppet do |puppet|
+                        puppet.manifests_path = "manifests"
+                        puppet.module_path    = "modules"
+                        puppet.options = ['--verbose']
+                    end
+
+                    config.vm.post_up_message = $message
+
+                end
+            </xmp
+          >
+        </div>
+      </section>
+
+      <section class="steps">
+        <div class="container">
+          <ol>
+            <li>
+              Cole os arquivos em um novo diretório
+              <ul>
+                <li>VagrantFile</li>
+                <li>installpuppet.sh</li>
+                <li>/manifests</li>
+                <li>/modules</li>
+              </ul>
+            </li>
+            <li>
+              Execute o seguinte comando no diretório
+              <ul>
+                <li>vagrant up</li>
+              </ul>
+            </li>
+            <li>
+              Abra o navegador no link a seguir:<a
+                href="http://192.168.60.58"
+                target="_blank"
+                >192.168.60.58</a
+              >
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="m-top" id="nav-squid">
+        <div class="container">
+          <h3>Squid File Used</h3>
+          <xmp
+>                    
+                acl all src all
+                acl manager proto cache_object
+
+                acl SSL_ports port 443
+                acl Safe_ports port 80		
+                acl Safe_ports port 21		
+                acl Safe_ports port 443		
+                acl Safe_ports port 70		
+                acl Safe_ports port 210	
+                acl Safe_ports port 1025-65535
+                acl Safe_ports port 280		
+                acl Safe_ports port 488		
+                acl Safe_ports port 591		
+                acl Safe_ports port 777		
+                acl CONNECT method CONNECT
+
+                http_access deny !Safe_ports
+
+                http_port 3128
+
+                coredump_dir /var/spool/squid
+
+                refresh_pattern ^ftp:		1440	20%	10080
+                refresh_pattern ^gopher:	1440	0%	1440
+                refresh_pattern -i (/cgi-bin/|\?) 0	0%	0
+                refresh_pattern .		0	20%	4320
+
+                http_access allow localhost
+
+                acl rede_interna src 192.168.60.0/24
+                acl SITES_NEGADOS dstdomain "/etc/squid/denyWebsites.lst"
+
+                http_access allow rede_interna !SITES_NEGADOS
+
+                http_access deny all
+            </xmp
+          >
+          <ol>
+            <li>
+              Crie um diretório com o nome <strong>squid</strong>,<strong
+                >config</strong
+              >
+              e <strong>reload</strong>:
+              <ul>
+                <li>
+                  A pasta <strong>squid</strong> é para garantir que o squid
+                  está instalado na máquina.
+                </li>
+                <li>
+                  A pasta <strong>config</strong> é onde se localiza todas as
+                  configurações do squid, tendo suas funcionalidades, como
+                  cache, whitelist de sites e blacklist de sites.
+                </li>
+                <li>
+                  A pasta <strong>reload</strong> é para garantir que o serviço
+                  seja recarregado, garantindo que as configurações sejam
+                  carregadas.
+                </li>
+              </ul>
+            </li>
+            <li>
+              Dentro do <strong>/manifests/default.pp</strong> é necessário
+              adicionar as pastas criadas, para que o Puppet possa configurar.
+            </li>
+            <li>
+              Nosso grupo criou um arquivo chamado
+              <strong>denyWebsites.lst</strong>, dentro dele fica todos os urls
+              que estão bloqueados. Caso exista a vontade de alterar os URLs
+              bloqueados ou adicionar, é necessário seguir esse padrão:
+              <ul>
+                <li><strong>.urlDoSite.com</strong></li>
+              </ul>
+            </li>
+          </ol>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container showcase">
+        <div class="showcase-text">
+          <h2>Integrantes</h2>
+          <p>Felipe Schmidt</p>
+          <p>Gabriel Walker</p>
+          <p>Luis Tabile</p>
+        </div>
+        <div class="showcase-image">
+          <a
+            href="https://github.com/FelipeESchmidt/vagrant-puppet-proxy"
+            target="blank"
+            ><img
+              src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+              alt="Github Logo"
+          /></a>
+        </div>
+      </div>
+    </footer>
+    <script src="./app.js"></script>
+  </body>
+</html>
