@@ -127,6 +127,9 @@ Com esses programas instalados basta executar o seguinte comando na pasta root d
     vagrant up
 Após finalizar o comando acesse em seu navegador a seguinte url para demais instruções.
     http://192.168.56.56
+
+Abra o gerenciado de arquivos e na barra de pesquisa digite: smb://192.168.56.56/samba/
+Após localizar, será solicitado dados de acesso: Usuário = vagrant e Senha= 123
     
 ## Email
 Configurar o mail server "Postfix" com Ansible
