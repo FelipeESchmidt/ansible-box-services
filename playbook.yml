@@ -235,11 +235,11 @@
   become: true
 
   tasks:
-    - name: move lista de sites bloqueados # Move o arquivo com os sites bloqueados
+    - name: move lista de extensoes bloqueadas # Move o arquivo com os extensoes bloqueadas
       become: true
       copy:
-        src: ./config/denyWebsites.lst
-        dest: /etc/squid/denyWebsites.lst
+        src: ./config/files_extensions_check.lst
+        dest: /etc/postfix/files_extensions_check.lst
 
     - name: add configs to postfix # Enviando o arquivo de configuração do postfix
       blockinfile:
@@ -247,12 +247,20 @@
         insertafter: EOF
         block: |
           header_checks = regexp:/etc/postfix/files_extensions_check.lst
+          smtpd_helo_restrictions =
+            permit_mynetworks
+            permit_sasl_authenticated
+            reject_invalid_helo_hostname
+            reject_unknown_helo_hostname
 
     - name: adiciona configuracao de extensões # adiciona configuracao de extensões
       shell: postmap /etc/postfix/files_extensions_check.lst
 
-    - name: limita o tamanho dos anexos em 5MB # limita o tamanho dos anexos em 5MB
-      shell: postconf -e message_size_limit=5242880
+    - name: adiciona restrição HELO/EHLO # adiciona restrição HELO/EHLO
+      shell: postconf -e smtpd_helo_required=yes
+
+    - name: limita o tamanho dos anexos em 10KB # limita o tamanho dos anexos em 10KB
+      shell: postconf -e message_size_limit=10240
 
     - name: starta o servico do postfix # Inicia o postfix
       become: true
