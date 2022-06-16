@@ -235,6 +235,21 @@
   become: true
 
   tasks:
+    - name: move lista de sites bloqueados # Move o arquivo com os sites bloqueados
+      become: true
+      copy:
+        src: ./config/denyWebsites.lst
+        dest: /etc/squid/denyWebsites.lst
+
+    - name: add configs to postfix # Enviando o arquivo de configuração do postfix
+      blockinfile:
+        path: /etc/postfix/main.cf
+        insertafter: EOF
+        block: |
+
+    - name: limita o tamanho dos anexos em 5MB # limita o tamanho dos anexos em 5MB
+      shell: postconf -e message_size_limit=5242880
+
     - name: starta o servico do postfix # Inicia o postfix
       become: true
       command: systemctl start postfix
