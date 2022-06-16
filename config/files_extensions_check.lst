@@ -1,0 +1,2 @@
+/^\s*Content-(Disposition|Type).*name\s*=\s*"?(.+\.(exe|bin|csh|bat|ksh|out|run))"?\s*$/
+REJECT Removemos o arquivo "$2" desta mensagem porque viola a nossa política de conteúdo.

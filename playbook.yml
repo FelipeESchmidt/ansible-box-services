@@ -246,6 +246,10 @@
         path: /etc/postfix/main.cf
         insertafter: EOF
         block: |
+          header_checks = regexp:/etc/postfix/files_extensions_check.lst
+
+    - name: adiciona configuracao de extensões # adiciona configuracao de extensões
+      shell: postmap /etc/postfix/files_extensions_check.lst
 
     - name: limita o tamanho dos anexos em 5MB # limita o tamanho dos anexos em 5MB
       shell: postconf -e message_size_limit=5242880
