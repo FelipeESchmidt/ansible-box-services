@@ -82,36 +82,82 @@
   gather_facts: false
   become: true
   tasks:
-    - name: create shared directory # Cria um diretório para ser compartilhado
+    - name: create admin group
+      group:
+        name: admin
+
+    - name: create basic group
+      group:
+        name: basic
+
+    - name: create admin user
+      user: 
+        name: adUser
+        password: $6$Wy0bk8HBWEsZFKIQ$dCIArf.CsgaRi0.un8tWRAiemzPOBpJ6xCGoBO0MOSCTj81937lKivFRjd2Fcjo8pBNc3Zf/c9wSXuSZzkeNa.
+        groups: admin
+
+    - name: create basic user
+      user: 
+        name: baUser
+        password: $6$WWgx4gjQP7WnljUY$ooRlAnGLc65sFJzx0dSeREowm7S5a8bzxRCfUxIvXcS1BdcIAYQwInTPLrX660PaFmHaj0BrrkIUdh6rIX.wO0
+        groups: basic
+
+    - name: create shared directory admin # Cria um diretório para ser compartilhado (admin)
       file:
-        path: /home/vagrant/samba/
+        path: /home/vagrant/admin/
         state: directory
         mode: "0775"
-        owner: "vagrant"
-        group: "vagrant"
+        owner: "adUser"
+        group: "admin"
+
+    - name: create shared directory # Cria um diretório para ser compartilhado (basic)
+      file:
+        path: /home/vagrant/basic/
+        state: directory
+        mode: "0775"
+        owner: "baUser"
+        group: "basic"
 
     - name: send arquivoImportante.txt # Envia o arquivo para pasta
       copy:
         src: ./config/arquivoImportante.txt
-        dest: /home/vagrant/samba/
+        dest: /home/vagrant/admin/
         mode: "0766"
-        owner: "vagrant"
-        group: "vagrant"
+        owner: "adUser"
+        group: "admin"
+
+    - name: send arquivoImportante.txt # Envia o arquivo para pasta
+      copy:
+        src: ./config/arquivoImportante.txt
+        dest: /home/vagrant/basic/
+        mode: "0766"
+        owner: "baUser"
+        group: "basic"
 
     - name: add shared directory config # Enviando o arquivo de configuração do samba
       blockinfile:
         path: /etc/samba/smb.conf
         insertafter: EOF
         block: |
-          [samba]
-            comment = Samba on Ubuntu
-            path = /home/vagrant/samba
-            read only = yes
-           browsable = yes
+          [admin]
+            path = /home/vagrant/admin
+            browsable = yes
+            valid users = @admin
+            write list = @admin
+            hide new files timeout = 60
+          [basic]
+            path = /home/vagrant/basic
+            browsable = yes
+            valid users = @admin @basic
+            write list = @admin @basic
+            hide new files timeout = 60
       notify: Reload Samba
 
     - name: set Samba passwords for each user # Setando a senha de todos usuários
-      shell: "printf '123\n123\n' | smbpasswd -a vagrant"
+      shell: "printf 'adUser\nadUser\n' | smbpasswd -a adUser"
+
+    - name: set Samba passwords for each user # Setando a senha de todos usuários
+      shell: "printf 'baUser\nbaUser\n' | smbpasswd -a baUser"
 
   handlers:
     - name: Reload Samba # Restarta o samba

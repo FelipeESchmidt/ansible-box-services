@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
     server.vm.network "private_network", ip: $ip
 
     server.vm.provider "virtualbox" do |virtualboxMachine|
-      virtualboxMachine.name = "justTest"
+      virtualboxMachine.name = "FinalExam"
     end
   end
 
