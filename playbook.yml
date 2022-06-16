@@ -292,14 +292,20 @@
     - name: permite conexões por TCP # Permite conexões por TCP
       shell: sudo ufw allow 23
 
-    - name: permite acesso a porta 80 # Permite acesso à porta 80
-      shell: sudo ufw allow 80
-
     - name: permite conexoes SMTP # Permite conexoes SMTP
       shell: sudo ufw allow 25
 
+    - name: permite conexoes DNS # Permite conexoes DNS
+      shell: sudo ufw allow 53
+
+    - name: permite acesso a porta 80 # Permite acesso à porta 80
+      shell: sudo ufw allow 80
+
     - name: permite conexoes HTTPS # Permite conexoes HTTPS
       shell: sudo ufw allow 443
+
+    - name: permite conexoes PROXY # Permite conexoes PROXY
+      shell: sudo ufw allow 3128
 
     - name: permite conexoes MySQL # Permite conexoes MySQL
       shell: sudo ufw allow 3306
