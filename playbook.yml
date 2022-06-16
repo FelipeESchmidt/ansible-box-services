@@ -201,12 +201,21 @@
       copy:
         src: ./config/squid.conf
         dest: /etc/squid/squid.conf
+        mode: "0777"
+        owner: "vagrant"
+        group: "vagrant"
 
     - name: move lista de sites bloqueados # Move o arquivo com os sites bloqueados
       become: true
       copy:
         src: ./config/denyWebsites.lst
         dest: /etc/squid/denyWebsites.lst
+
+    - name: move lista de palavras bloqueados # Move o arquivo com as palavras bloqueados
+      become: true
+      copy:
+        src: ./config/denyWords.lst
+        dest: /etc/squid/denyWords.lst
 
     - name: reinicia o squid3 # Restarta o squid3
       service:
