@@ -274,35 +274,38 @@
   become: true
 
   tasks:
-    - name: permite conexões por SSH # Permite conexões por SSH
-      shell: sudo ufw allow 22/tcp
-
-    - name: bloquear todos os ips de SSH # Bloquea todos os ips de SSH
+    - name: bloqueia todas as portas de entrada # bloqueia todas as portas de entrada
       shell: sudo ufw default deny incoming
 
-    - name: bloquear ip especifico # Bloquea um IP específico
-      shell: sudo ufw deny from 203.0.113.4
+    - name: bloqueia todas as portas de saida # bloqueia todas as portas de saida
+      shell: sudo ufw default deny outgoing
 
-    - name: permite acesso a todas as páginas www # Permite acesso as páginas www
-      shell: sudo ufw allow www
+    - name: permite conexoes FTP (porta 20) # Permite conexoes FTP (porta 20)
+      shell: sudo ufw allow 20
+
+    - name: permite conexoes FTP (porta 21) # Permite conexoes FTP (porta 21)
+      shell: sudo ufw allow 21
+
+    - name: permite conexões por SSH # Permite conexões por SSH
+      shell: sudo ufw deny 22
+
+    - name: permite conexões por TCP # Permite conexões por TCP
+      shell: sudo ufw allow 23
 
     - name: permite acesso a porta 80 # Permite acesso à porta 80
-      shell: sudo ufw allow 80/tcp
-
-    - name: permite conexoes FTP # Permite conexoes FTP
-      shell: sudo ufw allow 21/tcp
+      shell: sudo ufw allow 80
 
     - name: permite conexoes SMTP # Permite conexoes SMTP
-      shell: sudo ufw allow smtp
+      shell: sudo ufw allow 25
 
-    - name: permite conexoes HTTP # Permite conexoes HTTP
+    - name: permite conexoes HTTPS # Permite conexoes HTTPS
       shell: sudo ufw allow 443
 
     - name: permite conexoes MySQL # Permite conexoes MySQL
       shell: sudo ufw allow 3306
 
-    - name: desliga o Firewall # Desliga o Firewall para os outros serviços funcionarem 100%
-      shell: sudo ufw disable
+    - name: Inicia o firewall # Inicia o firewall
+      shell: sudo ufw enable
 
 #----------------------------------------------------------------------------------------------------------------------------------------------
 
