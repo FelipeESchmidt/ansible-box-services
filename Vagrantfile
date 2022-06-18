@@ -7,7 +7,7 @@ Box up in, #{$ip}
 Accessible in http://#{$ip}
 
 You can find more details in the link below
-https://github.com/FelipeESchmidt/vagrant-puppet-proxy
+https://github.com/FelipeESchmidt/ansible-box-services
 
 ------------------------------------------------------
 MSG
