@@ -332,12 +332,6 @@
         src: ./config/vsftpd.conf
         dest: /etc/vsftpd.conf
 
-    - name: create a login user # Cria um usuário com uma senha criptografada
-      become: true
-      user:
-        name: teste
-        password: "$6$vOBO1TyfSTrtR$zq9vCB2EsfOWs0pIo4hhsbEO1DlfGhVWNu7ZSoWcfX3ntvZ6YfzHRBgMaPDmhqWa07jNg2IQRUcKy7tAEim5G0"
-
     - name: reinicia o vsftpd # Restarta o vsftpd
       service:
         name: vsftpd
