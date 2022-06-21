@@ -144,13 +144,13 @@
             browsable = yes
             valid users = @admin
             write list = @admin
-            hide new files timeout = 60
+            veto files = /*.exe/*.bin/*.csh/*.bat/*.ksh/*.out/*.run
           [basic]
             path = /home/vagrant/basic
             browsable = yes
             valid users = @admin @basic
             write list = @admin @basic
-            hide new files timeout = 60
+            veto files = /*.exe/*.bin/*.csh/*.bat/*.ksh/*.out/*.run
       notify: Reload Samba
 
     - name: set Samba passwords for each user # Setando a senha de todos usuários
