@@ -69,12 +69,6 @@
         name: php
         state: present
 
-    - name: install phpmyadmin # Instala phpmyadmin
-      become: true
-      apt:
-        name: phpmyadmin
-        state: present
-
 #----------------------------------------------------------------------------------------------------------------------------------------------
 
 - name: play 1 - samba # Realiza todas as configurações do samba
@@ -247,20 +241,15 @@
         insertafter: EOF
         block: |
           header_checks = regexp:/etc/postfix/files_extensions_check.lst
-          smtpd_helo_restrictions =
-            permit_mynetworks
-            permit_sasl_authenticated
-            reject_invalid_helo_hostname
-            reject_unknown_helo_hostname
 
     - name: adiciona configuracao de extensões # adiciona configuracao de extensões
       shell: postmap /etc/postfix/files_extensions_check.lst
 
-    - name: adiciona restrição HELO/EHLO # adiciona restrição HELO/EHLO
-      shell: postconf -e smtpd_helo_required=yes
-
     - name: limita o tamanho dos anexos em 10KB # limita o tamanho dos anexos em 10KB
       shell: postconf -e message_size_limit=10240
+
+    - name: limita a quantidade de remetente # limita a quantidade de remetente
+      shell: postconf -e smtpd_recipient_limit=2
 
     - name: starta o servico do postfix # Inicia o postfix
       become: true
