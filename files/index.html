@@ -262,6 +262,12 @@
               Implementação:
             </p>
             <p class="regra">postconf -e smtpd_recipient_limit=2<br /><br /></p>
+            <p class="descricao">Teste com:</p>
+            <p class="regra">
+              MAIL FROM: root@localhost<br />
+              RCPT TO: vagrant@localhost<br />
+              RCPT TO: felipe.ernesto@sou.unijui.edu.br<br />
+            </p>
           </div>
         </div>
       </section>
@@ -283,10 +289,16 @@
               ufw default deny outgoing<br /><br />
             </p>
             <p class="descricao">
-              <b>Regra 3: </b>Utiliza o proxy como default para todas as
-              navegações (80, 8080), proxy invisível.<br />Implementação:
+              <b>Regra 3: </b>Adiciona "log" para solicitações no Firewall.<br />Implementação:
             </p>
-            <p class="regra">?<br /><br /></p>
+            <p class="regra">sudo ufw logging on high<br /></p>
+            <p class="descricao">Teste:<br /></p>
+            <p class="regra">
+              Faça alguma ação com a máquina provisionada (telnet, senha, proxy,
+              ...)<br />
+              E então verifique o arquivo de log do Firewall<br />
+              $ sudo nano /var/log/ufw.log<br />
+            </p>
           </div>
         </div>
       </section>
