@@ -14,7 +14,7 @@
     <header class="navigation">
       <div class="container">
         <nav>
-          <h1 class="title">Trabalho 2 - Proxy</h1>
+          <h1 class="title">Trabalho 3 - Regras</h1>
           <div class="components">
             <a href="#nav-servicos" class="component">Servidor</a>
             <a href="#nav-linguagem" class="component">Linguagem</a>
@@ -60,7 +60,11 @@
           <div class="text-part">
             <h3>Linguagem de provisionamento</h3>
             <p class="descricao">
-              A linguagem de provisionamento utiizada foi a Puppet, e foi escolhida pois é uma ferramenta de automação de TI open source para provisionamento, gerenciamento de configurações, implantação de aplicações, orquestraçãoe muitos outros processos manuais de TI.
+              A linguagem de provisionamento utiizada foi a Puppet, e foi
+              escolhida pois é uma ferramenta de automação de TI open source
+              para provisionamento, gerenciamento de configurações, implantação
+              de aplicações, orquestraçãoe muitos outros processos manuais de
+              TI.
             </p>
           </div>
           <div class="image-part">
@@ -78,18 +82,20 @@
             <div class="text-part">
               <h3>Serviços provisionados</h3>
               <p class="descricao">
-                Foram provisionados 6 tipos de serviços, dos quais foram aplicados de forma simples e direta para cunho de estudo. Os serviços implementados são:<br>
-                1. Samba<br>
-                2. Proxy<br>
-                3. Email<br>
-                4. Firewall<br>
-                5. Serviços de arquivos<br>
-                6. Banco de dados<br>
+                Foram provisionados 6 tipos de serviços, dos quais foram
+                aplicados de forma simples e direta para cunho de estudo. Os
+                serviços implementados são:<br />
+                1. Samba<br />
+                2. Proxy<br />
+                3. Email<br />
+                4. Firewall<br />
+                5. Serviços de arquivos<br />
+                6. Banco de dados<br />
               </p>
             </div>
             <div class="image-part">
               <img
-                src="https://media0.giphy.com/media/rX0RqM4T4Dzqs8JBam/giphy.gif?cid=790b761138da9c80f4286d45aab09576303ec0c9837d8056&rid=giphy.gif&ct=s"                
+                src="https://media0.giphy.com/media/rX0RqM4T4Dzqs8JBam/giphy.gif?cid=790b761138da9c80f4286d45aab09576303ec0c9837d8056&rid=giphy.gif&ct=s"
                 alt="6 Logo"
               />
             </div>
@@ -98,196 +104,247 @@
       </section>
 
       <section class="m-top" id="nav-samba">
-        <div class="container divisor reverse" id="showcase-right">
+        <div class="container" id="showcase-right">
           <div class="text-part">
             <h3>Linguagem de provisionamento - Samba</h3>
             <p class="descricao">
-              O primeiro serviço utilizado é o Samba, ele é um software livre que permite realizar a reimplementação do protocolo de rede SMB/CIFS. Embora tenha sido criado para integração com um domínio de servidor Windows, ele é uma boa opção para o Linux, e para a maioria dos sistemas operacionais do modelo Unix
+              <br />
+              <b>Regra 1</b>: Diretório ‘/basic’ poderá ser acessado por
+              usuários dos grupos basic e admin.<br />
+              Usuário para teste:
             </p>
-          </div>
-          <div class="image-part">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Logo_Samba_Software.svg/800px-Logo_Samba_Software.svg.png"
-              alt="Samba Logo"
-            />
+            <p class="regra">user: baUser <br />senha: baUser</p>
+            <p class="descricao">Implementação:</p>
+            <p class="regra">
+              [basic]<br />
+              ⠀path = /home/vagrant/basic<br />
+              ⠀browsable = yes<br />
+              ⠀valid users = @admin @basic <br />⠀write list = @admin @basic
+              <br />⠀veto files = /*.exe/*.bin/*.csh/*.bat/*.ksh/*.out/*.run<br /><br />
+            </p>
+
+            <p class="descricao">
+              <b>Regra 2</b>: Diretório ‘/admin poderá ser acessado por usuários
+              do grupo admin.<br />
+              Usuário para teste:
+            </p>
+            <p class="regra">user: baUser <br />senha: baUser</p>
+            <p class="descricao">Implementação:</p>
+            <p class="regra">
+              [admin]<br />
+              ⠀path = /home/vagrant/admin<br />
+              ⠀browsable = yes<br />
+              ⠀valid users = @admin <br />⠀write list = @admin <br />⠀veto files
+              = /*.exe/*.bin/*.csh/*.bat/*.ksh/*.out/*.run<br /><br />
+            </p>
+
+            <p class="descricao">
+              <b>Regra 3</b>: Fazer com que arquivos com as seguintes extensões
+              sejam bloqueados.
+            </p>
+            <ul>
+              <li class="item-lista">exe</li>
+              <li class="item-lista">bin</li>
+              <li class="item-lista">csh</li>
+              <li class="item-lista">bat</li>
+              <li class="item-lista">ksh</li>
+              <li class="item-lista">out</li>
+              <li class="item-lista">run</li>
+            </ul>
+            <p class="descricao">Implementação:</p>
+            <p class="regra">
+              …<br />
+              veto files = /*.exe/*.bin/*.csh/*.bat/*.ksh/*.out/*.run
+            </p>
           </div>
         </div>
       </section>
 
       <section class="m-top" id="nav-proxy">
         <div class="container" id="showcase-down">
-          <div class="divisor">
-            <div class="text-part">
-              <h3>Serviço provisionado - Proxy  </h3>
-              <p class="descricao">
-                O segundo serviço utilizado é o server proxy com o Squid, pois o uso
-                do mesmo como Proxy/Cache é uma das opções mais utilizadas em
-                ambientes corporativos que adotam software livre para
-                administrar a rede, seja através da otimização e melhoria do
-                desempenho da rede atuando como servidor de cache ou como proxy,
-                implementando restrições de acesso à Internet, que nem sempre é
-                possível fazer através do firewall.
-              </p>
-            </div>
-            <div class="image-part">
-              <img
-                src="https://www.arduinoecia.com.br/wp-content/uploads/2020/02/squid-logo-png.png"
-                alt="Squid Logo"
-              />
-            </div>
+          <div class="text-part">
+            <h3>Serviço provisionado - Proxy</h3>
+            <p class="descricao">
+              <b>Regra 1:</b> Lista de sites bloqueados e palavras
+              bloqueadas.<br />
+              Exemplo de sites para teste:<br />
+            </p>
+            <p class="regra">
+              google.com (BLOCK BY denyWebsites.lst)<br />
+              github.com (BLOCK BY denyWords.lst)<br />
+              unijui.edu.br (GOOD)<br /><br />
+            </p>
+            Implementação:<br />
+            <p class="regra">
+              acl SITES_NEGADOS dstdomain "/etc/squid/denyWebsites.lst"
+              <br />acl PALAVRAS_NEGADAS url_regex "/etc/squid/denyWords.lst"<br />
+              http_access deny rede_interna SITES_NEGADOS limite_tempo<br />
+              http_access deny rede_interna PALAVRAS_NEGADAS limite_tempo
+            </p>
           </div>
           <br />
           <p class="descricao">
-            O serviço provisionado foi um servidor proxy no qual seu objetivo é
-            bloquear sites de buscas, tais quais:
+            <b>Regra 2:</b>
+            Fazer com que a regra 1 não seja ativada em um certo horário, ou
+            seja, em um determinado horário será possível acessar os sites e
+            palavras bloqueadas.
           </p>
-          <ul>
-            <li><a href="https://google.com">google.com</a></li>
-            <li><a href="https://bing.com">bing.com</a></li>
-            <li><a href="https://yahoo.com">yahoo.com</a></li>
-            <li><a href="https://duckduckgo.com">duckduckgo.com</a></li>
-            <li><a href="https://ask.com">ask.com</a></li>
-            <li><a href="https://aol.com">aol.com</a></li>
-            <li><a href="https://searchencrypt.com">searchencrypt.com</a></li>
-            <li><a href="https://msn.com">msn.com</a></li>
-            <li><a href="https://wolframalpha.com">wolframalpha.com</a></li>
-            <li><a href="https://nationmaster.com">nationmaster.com</a></li>
-          </ul>
+          <p class="regra">
+            Horário de bloqueio: início: 08:00 <br />fim: 17:00<br />
+          </p>
+          Exemplo:
+          <p class="regra">
+            sudo timedatectl set-ntp off<br />
+            sudo timedatectl set-time 10:00:00<br />
+            faça o teste <br />sudo timedatectl set-ntp on<br />
+          </p>
+          Implementação:
+          <p class="regra">
+            acl limite_tempo time MTWHF 08:00-17:00 <br />http_access deny
+            rede_interna SITES_NEGADOS limite_tempo<br />
+            http_access deny rede_interna PALAVRAS_NEGADAS limite_tempo
+          </p>
+          <p class="descricao">
+            <br />
+            <b>Regra 3: </b>Limitar a velocidade máxima da banda.<br />
+            Implementação:
+          </p>
+          <p class="regra">
+            delay_pools 1<br />
+            delay_class 1 1<br />
+            delay_access 1 allow all<br />
+            delay_parameters 1 254000/254000<br />
+          </p>
         </div>
       </section>
 
       <section class="m-top" id="nav-email">
-        <div class="container divisor reverse" id="showcase-right">
+        <div class="container" id="showcase-right">
           <div class="text-part">
             <h3>Linguagem de provisionamento - Email</h3>
             <p class="descricao">
-              O terceito serviço utilizado é o Postfix , com ele é possível fazer a instalação de um webmail — uma caixa de e-mail que pode ser acessada com uso do navegador — chamado SquirrelMail, que se caracteriza por ser altamente leve e compatível com a maioria dos browsers, até mesmo os mais antigos.
+              <b>Regra 1: </b>Limitar o tamanho de anexos no email.<br />
+              Implementação:<br />
             </p>
-          </div>
-          <div class="image-part">
-            <img
-              src="https://cyberjcts.com/wp-content/uploads/2020/12/LogoPostfix1-300x227.png"
-              alt="Postfix Logo"
-            />
+            <p class="regra">postconf -e message_size_limit=10240</p>
+            Teste com:
+            <p class="regra">
+              Na máquina externa entre na pasta /files/test-files<br />
+              copie o conteúdo do arquivo “big.txt”<br />
+              $ telnet 192.168.60.58 25<br /><br />
+              MAIL FROM: root@localhost<br />
+              RCPT TO: vagrant@localhost<br /><br /><br />
+              DATA<br />
+              Subject: Teste limite<br /><br /><br />
+              ${Conteúdo arquivo “big.txt”}<br /><br /><br />
+              .<br />
+              ```<br />
+              quit<br /><br />
+              Ná máquina provisionada, entre no usuário vagrant (padrão) e
+              digite<br />
+              $ mail<br /><br />
+            </p>
+            <p class="descricao">
+              <b>Regra 2: </b>Bloquear uma lista de extensões para os arquivos
+              de anexos.<br />Exemplo de extensões para teste:
+            </p>
+            <p class="regra">
+              .bin (BLOCK)<br />
+              .pdf (GOOD)<br />
+            </p>
+            Implementação:
+            <p class="regra">
+              header_checks = regexp:/etc/postfix/files_extensions_check.lst<br />
+              postmap /etc/postfix/files_extensions_check.lst<br />
+            </p>
+            <p class="descricao">
+              <br /><b>Regra 3: </b>Limitar a quantidade de remetentes para um
+              email, visando implementar uma regra de anti-spam.<br />
+              Implementação:
+            </p>
+            <p class="regra">postconf -e smtpd_recipient_limit=2<br /><br /></p>
           </div>
         </div>
       </section>
 
       <section class="m-top" id="nav-firewall">
         <div class="container" id="showcase-down">
-          <div class="divisor">
-            <div class="text-part">
-              <h3>Serviços provisionados - Firewall</h3>
-              <p class="descricao">
-                O quarto serviço utilizado é o firewall com UFW, ele é um componente muito importante para a segurança de qualquer dispositivo que realiza conexões com a internet. Mesmo o Linux tendo ótimas ferramentas de segurança pré-instaladas, quanto mais seguro, melhor.
-              </p>
-            </div>
-            <div class="image-part">
-              <img
-                src="https://i0.wp.com/www.dagorret.net/wp-content/uploads/2021/09/ufw.jpg?fit=1024%2C768&ssl=1"                
-                alt="UFW Logo"
-              />
-            </div>
+          <div class="text-part">
+            <h3>Serviços provisionados - Firewall</h3>
+            <p class="descricao">
+              <br /><b>Regra 1: </b>Bloquear o acesso por SSH porta 22.<br />
+              Implementação:
+            </p>
+            <p class="regra">ufw deny 22<br /><br /></p>
+            <p class="descricao">
+              <b>Regra 2: </b>Bloqueia todas as portas que não serão usadas.<br />Implementação:
+            </p>
+            <p class="regra">
+              ufw default deny incoming<br />
+              ufw default deny outgoing<br /><br />
+            </p>
+            <p class="descricao">
+              <b>Regra 3: </b>Utiliza o proxy como default para todas as
+              navegações (80, 8080), proxy invisível.<br />Implementação:
+            </p>
+            <p class="regra">?<br /><br /></p>
           </div>
         </div>
       </section>
 
       <section class="m-top" id="nav-ftp">
-        <div class="container divisor reverse" id="showcase-right">
+        <div class="container" id="showcase-right">
           <div class="text-part">
             <h3>Linguagem de provisionamento - FTP</h3>
             <p class="descricao">
-              O quinto serviço utilizado é o FTP com VSFTPD, ele é um servidor FTP estável, seguro e rápido. É um dos mais conhecidos e utilizados, possuindo uma documentação muito acessível e que é de fácil acesso.
+              <b>Regra 1: </b>Apenas acesso com login e senha.<br />Implementação:
+            </p>
+            <p class="regra">
+              anonymous_enable=NO<br />
+              local_enable=YES<br />
+            </p>
+            <p class="descricao">Usuário para teste:<br /></p>
+            <p class="regra">
+              user: adUser<br />
+              senha: adUser<br />
+            </p>
+            <p class="descricao">Teste:<br /></p>
+            <p class="regra">
+              Dentro do Filezilla vá para File > Site Manager<br />
+              Estando lá clique em New Site<br />
+              Selecione TLS explícito nas opções de criptografia<br />
+              Utilize os seguintes dados nos campos:<br />
+              ⠀⠀Host: 192.168.56.56<br />
+              ⠀⠀Logon Type: Ask Password<br />
+              ⠀⠀User: adUser<br />
+              Inseridos esses dados, clique em Connect e insira a senha
+              "adUser"<br /><br />
+              <br /><br />
+            </p>
+            <p class="descricao">
+              <b>Regra 2: </b>Limitar a taxa de transferência, em bytes por
+              segundo, para usuários logados. <br />Implementação:
+            </p>
+            Usuário para teste:<br />
+            <p class="regra">local_max_rate=1024<br /><br /></p>
+            <p class="descricao">
+              <b>Regra 3: </b>Bloquear certas extensões de arquivos e também uma
+              lista de nomes de pastas/arquivos que será bloqueada.<br />Implementação:
+            </p>
+            <p class="regra">
+              deny_file={*.exe,*.bin,*.csh,*.bat,*.ksh,*.out,*.run,*felipe*}<br />
+            </p>
+            <p class="descricao">Teste:<br /></p>
+            <p class="regra">
+              Na máquina externa entre na pasta /files/test-files<br />
+              tente transferir o arquivo “some.exe” (BLOCK BY *.exe)<br />
+              tente transferir o arquivo “senha-felipe.txt” (BLOCK BY
+              *felipe*)<br /><br />
             </p>
           </div>
-          <div class="image-part">
-            <img
-              src="https://www.linuxcloudvps.com/blog/wp-content/uploads/2014/03/vsftpd.jpg"
-              alt="VSFTPD Logo"
-            />
-          </div>
         </div>
       </section>
-
-      <section class="m-top" id="nav-php">
-        <div class="container" id="showcase-down">
-          <div class="divisor">
-            <div class="text-part">
-              <h3>Serviços provisionados - Banco de dados</h3>
-              <p class="descricao">
-                O sexto serviço utilizado é o banco de dados com PHP, é utilizado PHP pois é capaz de suportar grandes quantidades de dados, e com isso a linguagem consegue executar muitas funções e consumir muitos recursos ao mesmo tempo sem comprometer o desempenho e velocidade do servidor.
-              </p>
-            </div>
-            <div class="image-part">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Webysther_20160423_-_Elephpant.svg/2560px-Webysther_20160423_-_Elephpant.svg.png"                
-                alt="PHP Logo"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="m-top" id="nav-vagrant">
-        <div class="container">
-          <h3>Vagrant File Used</h3>
-          <xmp
->    
-                Vagrant.configure("2") do |config|
-
-                    config.vm.define "server" do |server|
-                        server.vm.box = "ubuntu/bionic64"
-                        server.vm.network "private_network", ip: $ip
-
-                        server.vm.provider "virtualbox" do |virtualboxMachine|
-                        virtualboxMachine.name = "serverApacheAndPuppet"
-                        end
-                    end
-
-                    config.vm.provision :"shell", path: "installpuppet.sh"
-                    config.vm.provision :puppet do |puppet|
-                        puppet.manifests_path = "manifests"
-                        puppet.module_path    = "modules"
-                        puppet.options = ['--verbose']
-                    end
-
-                    config.vm.post_up_message = $message
-
-                end
-            </xmp
-          >
-        </div>
-      </section>
-
-      <section class="steps">
-        <div class="container">
-          <ol>
-            <li>
-              Cole os arquivos em um novo diretório
-              <ul>
-                <li>VagrantFile</li>
-                <li>installpuppet.sh</li>
-                <li>/manifests</li>
-                <li>/modules</li>
-              </ul>
-            </li>
-            <li>
-              Execute o seguinte comando no diretório
-              <ul>
-                <li>vagrant up</li>
-              </ul>
-            </li>
-            <li>
-              Abra o navegador no link a seguir:<a
-                href="http://192.168.60.58"
-                target="_blank"
-                >192.168.60.58</a
-              >
-            </li>
-          </ol>
-        </div>
-      </section>      
-    </main> 
+    </main>
 
     <footer>
       <div class="container showcase">
