@@ -299,6 +299,9 @@
     - name: permite conexoes MySQL # Permite conexoes MySQL
       shell: sudo ufw allow 3306
 
+    - name: adiciona log para solicitações no Firewall # adiciona log para solicitações no Firewall
+      shell: sudo ufw logging on high
+
     - name: Inicia o firewall # Inicia o firewall
       shell: sudo ufw enable
 
