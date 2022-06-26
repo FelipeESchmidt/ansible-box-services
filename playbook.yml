@@ -6,11 +6,6 @@
   become: true
 
   tasks:
-    - name: update packages # Atualiza os pacotes da máquina
-      become: true
-      apt:
-        update_cache: yes # Atualiza o cache
-
     - name: apt update # Atualiza informações dos pacotes
       apt: update_cache=yes
         force_apt_get=yes
@@ -276,7 +271,7 @@
       shell: sudo ufw allow 21
 
     - name: bloqueia conexões por SSH # Bloqueia conexões por SSH
-      shell: sudo ufw deny 22
+      shell: sudo ufw allow 22
 
     - name: permite conexões por TCP # Permite conexões por TCP
       shell: sudo ufw allow 23
