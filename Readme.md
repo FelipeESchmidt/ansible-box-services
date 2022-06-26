@@ -15,16 +15,6 @@ A linguagem de provisionamento utilizada foi o Ansible, e foi escolhida pois é 
 
 ![ansible](https://miro.medium.com/max/447/1*eGsQ4xEeXAL_eCoE3Ld1uw.png)
 
-### Serviço provisionado: 
-
-O serviço utilizado neste server proxy foi o Squid, pois o uso do mesmo como Proxy/Cache 
-é uma das opções mais utilizadas em ambientes corporativos que adotam software livre para 
-administrar a rede, seja atráves da otimização e melhoria do desmpenho da rede atuando 
-como servidor de cache ou como proxy, implementando restrições de acesso à internet, que 
-nem sempre é possível ser feita por firewall.
-
-![squid](https://www.arduinoecia.com.br/wp-content/uploads/2020/02/squid-logo-png.png) 
-
 ## Pré-Requisitos do Linux
 
 ```bash
@@ -78,44 +68,195 @@ Após o comando vagrant up, um site será disponibilizado no IP: [192.168.60.58]
 
 ![site_gif](https://user-images.githubusercontent.com/50564212/165188971-ecceabbf-6574-4918-a962-a290b4d8934f.gif)
 
-## Utilizando o servidor proxy
 
-O proxy pode ter várias aplicabilidades, tais quais como bloquear sites por horário, 
-bloquear URLs específicas, controlar o limite de banda entre outros.
+### Regras dos serviços: 
 
-Você pode encontrar algumas funções nos seguintes links:
+#### **Samba**
 
-* [Autenticação de usuários](https://gist.github.com/jackblk/fdac4c744ddf2a0533278a38888f3caf)
-* [Bloqueio de palavras](https://www.vivaolinux.com.br/topico/Squid-Iptables/Bloqueando-palavras-squid)
-* [Bloqueio de uma faixa de IP](https://under-linux.org/showthread.php?t=83897)
-* [Bloqueio de uma porta](https://www.cyberciti.biz/faq/linux-unix-squid-proxy-filtering-particular-port/)
-* [Bloqueio por horário](https://www.vivaolinux.com.br/dica/SQUID-Liberando-Internet-por-horario)
-* [Limitação de banda](https://www.vivaolinux.com.br/dica/Squid-Implementando-controle-de-banda)
+**Regra 1:**
+Diretório ‘/basic’ poderá ser acessado por usuários dos grupos basic e admin.]
 
-Como exemplo bloqueamos o acesso de URLs e para testar o serviço você terá que configurar o seu navegador para utilizar o proxy da box que foi criada. Para isso, siga os passos a seguir:
+***Usuário para teste:***
 
-* Encontre o menu de configurações do seu navegador
-* Busque por configurações avançadas
-* Busque pela opção para configurar o proxy
-* Busque pela opção de configuração manual do proxy
-* Adicione o seguinte IP como endereço do proxy - [192.168.60.58]()
-* Adicione a seguinte porta como porta do serviço - [3128]()
+    user: baUser 
+    senha: baUser
 
-## Testando o proxy
 
-Para testar se o proxy está funcionando basta tentar acessar algum dos sites listados abaixo
+**Regra 2:** Diretório ‘/admin poderá ser acessado por usuários do grupo admin.
 
-#### URLs bloqueadas pelo proxy
-- [google.com](https://google.com)
-- [bing.com](https://bing.com)
-- [yahoo.com](https://yahoo.com)
-- [duckduckgo.com](https://duckduckgo.com)
-- [ask.com](https://ask.com)
-- [aol.com](https://aol.com)
-- [searchencrypt.com](https://searchencrypt.com)
-- [msn.com](https://msn.com)
-- [wolframalpha.com](https://wolframalpha.com)
-- [nationmaster.com](https://nationmaster.com)
+***Usuário para teste:***
+
+    user: adUser
+    senha: adUser
+
+**Regra 3:** Fazer com que arquivos com as seguintes extensões sejam bloqueados. Exemplos: .exe, .bin, .csh, .bat, .ksh, .out, .run
+
+***Usuário para teste:***
+
+    user: adUser || baUser
+    senha: adUser || baUser
+
+
+![Samba](https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Logo_Samba_Software.svg/1280px-Logo_Samba_Software.svg.png) 
+## ⠀⠀⠀
+#### **Proxy**
+
+**Regra 1:**
+Lista de sites bloqueados e palavras bloqueadas.
+
+***Exemplo de sites para teste:***
+
+    google.com (BLOCK BY denyWebsites.lst)
+    github.com (BLOCK BY denyWords.lst)
+    unijui.edu.br (GOOD)
+
+
+
+**Regra 2:** Fazer com que a regra 1 não seja ativada em um certo horário, ou seja, em um determinado horário será possível acessar os sites e palavras bloqueadas.
+
+***Horário de bloqueio:***
+
+    início: 08:00
+    fim: 17:00
+
+***Exemplo:***
+
+    sudo timedatectl set-ntp off
+    sudo timedatectl set-time 10:00:00
+    faça o teste    
+    sudo timedatectl set-ntp on
+
+
+**Regra 3:** Limitar a velocidade máxima da banda.
+
+
+![Proxy](https://www.fasim.com.br/wp-content/uploads/2017/10/Squid-proxy-logo.jpg) 
+## ⠀⠀⠀
+#### **Email**
+
+**Regra 1:**
+Limitar o tamanho de anexos no email.
+
+***Teste com:***
+
+ Na máquina externa entre na pasta /files/test-files
+
+copie o conteúdo do arquivo “big.txt”
+
+    $ telnet 192.168.60.58 25
+
+    MAIL FROM: root@localhost
+    RCPT TO: vagrant@localhost
+
+
+    DATA
+    Subject: Teste limite
+
+
+    ${Conteúdo arquivo “big.txt”}
+
+
+    .
+    ```
+    quit
+
+Na máquina provisionada, entre no usuário vagrant (padrão) e digite
+    
+    $ mail
+
+**Regra 2:** Bloquear uma lista de extensões para os arquivos de anexos.
+
+***Exemplo de extensões para teste:*** .bin (BLOCK) .pdf (GOOD)
+
+***Teste com:*** Entre na pasta ->files/test-files
+
+    $ echo "Mensagem" | mutt -s "Subject" vagrant@192.168.60.58:25 -a ./some.exe
+
+**Regra 3:** Limitar a quantidade de remetentes para um email, visando implementar uma regra de anti-spam.
+
+***Teste com:***
+
+    MAIL FROM: root@localhost
+    RCPT TO: vagrant@localhost
+    RCPT TO: adUser@localhost
+
+![Email](https://wiki.deimos.fr/images/3/34/Postfix_logo.png) 
+## ⠀⠀⠀
+#### **Firewall**
+
+**Regra 1:** Bloquear o acesso por SSH porta 22.
+
+***Usuário para teste:***
+ user: baUser
+ senha: baUser
+
+
+**Regra 2:** Bloqueia todas as portas que não serão usadas.
+
+***Teste com:***
+ 
+    sudo ufw enable
+    sudo ufw status
+	curl https://www.google.com	– Erro
+	sudo ufw disable
+	curl https://www.google.com	– Sucesso
+
+**Regra 3:** Adiciona log para solicitações no Firewall.
+
+***Teste com:***
+
+Faça alguma ação com a máquina provisionada (telnet, samba, proxy…)
+
+E então verifique o arquivo de log do Firewall
+
+    $ sudo nano /var/log/ufw.log
+
+![Firewall](https://lintut.com/wp-content/uploads/2021/04/ubuntu_ufw.png) 
+## ⠀⠀⠀
+#### **FTP**
+
+**Regra 1:**
+Apenas acesso com login e senha
+
+***Usuário para teste:***
+ user: baUser
+ senha: baUser
+
+***Teste com:***
+
+Dentro do Filezilla vá para File > Site Manager
+
+Estando lá clique em New Site
+
+Selecione TLS explícito nas opções de criptografia
+
+Utilize os seguintes dados nos campos:
+
+    Host: 192.168.60.58
+    Logon Type: Ask Password
+    User: adUser
+Inseridos esses dados, clique em Connect e insira a senha "adUser"
+
+
+
+**Regra 2:** Limitar a taxa de transferência, em bytes por segundo, para usuários logados.
+
+***Usuário para teste:***
+ user: adUser
+ senha: adUser
+
+**Regra 3:** Bloquear certas extensões de arquivos e também uma lista de nomes de pastas/arquivos que será bloqueada.
+
+***Teste com:***
+
+Na máquina externa entre na pasta /files/test-files
+
+tente transferir o arquivo “some.exe” (BLOCK BY *.exe)
+
+tente transferir o arquivo “senha-felipe.txt” (BLOCK BY *felipe*)
+
+
+![FTP](https://www.linuxcloudvps.com/blog/wp-content/uploads/2014/03/vsftpd.jpg) 
 
 ## Autores
 
@@ -125,98 +266,6 @@ Para testar se o proxy está funcionando basta tentar acessar algum dos sites li
 
 ## Repositório
 
-- [___Github___](https://github.com/FelipeESchmidt/vagrant-puppet-proxy)
-- 
-# Outros Serviços
+- [___GitHub___](https://github.com/FelipeESchmidt/ansible-box-services)
 
-## Samba
-Para rodar esse trabalho você precisará ter instalado os seguintes programas:
-   - Vagrant     (apt install vagrant)
-  -  VirtualBox  (apt install virtualbox)
- -   Ansible     (apt install ansible)
-Com esses programas instalados basta executar o seguinte comando na pasta root do trabalho:
-    vagrant up
-Após finalizar o comando acesse em seu navegador a seguinte url para demais instruções.
-    http://192.168.56.56
-
-Abra o gerenciado de arquivos e na barra de pesquisa digite: smb://192.168.56.56/samba/
-Após localizar, será solicitado dados de acesso: Usuário = vagrant e Senha= 123
-    
-## Email
-Configurar o mail server "Postfix" com Ansible
-
-
-
-- instale as dependências
-- entre na pasta com o Vagrantfile
-- rode `$ vagrant up`
-- acesse a máquina com `$ vagrant ssh`
-- acesse a máquina com `$ vagrant ssh`
-- criar usuário dentro da vm
-`$ sudo adduser destinatario`
-- acesse o server via telnet: `$ telnet localhost 25` (pode ser feito de fora da máquina com `$ telnet 192.168.56.56`)
-- no terminal do telnet, entrar os comandos:
-```
-MAIL FROM: root@localhost
-RCPT TO: destinatario@localhost
-
-DATA
-Subject: Título do Email
-
-Aqui está o corpo do nosso email
-
-.
-```
-- o ponto marca o final do corpo do email
-- `quit` para sair do telnet
-- para testar se o email foi enviado, faça login como destinatario:
-`$ su destinatario`
-- veja sua caixa de entrada com `$ mail` (do pacote instalado mailutils), o email recebido irá aparecer na caixa de entrada
-- dentro da vm, você também pode ver seus emails com o mail client "Mutt", que já irá estar instalado, rode: `$ mutt`, o mutt pode ser usado inclusive para facilmente deletar, responder ou encaminhar os emails
-- 
-## Firewall
-Antes de rodar o vagrant instale o Ansible com o comando: sudo apt get ansible
-
-Com a vm rodando acesse a página com o ip 192.168.56.56 
-
-
-- Preparação do UFW
-
-$ sudo nano /etc/default/ufw -> Verificar IPV6 = yes, caso não for, altere.
-$ sudo ufw disable && sudo ufw enable -> Desliga, e Ligar o Firewall para aplicar o ipv6 caso não aplicou alguma modificação
-
-$ sudo ufw allow ssh || sudo ufw allow 22/tcp -> Ambos tem a mesma função de permitirem conexões por SSH
-
-- Negar Conexões
-
-- Bloquear todos os ips de SSH
-$ sudo ufw default deny incoming -> Define o firewall para negar todas as conexões de entrada
-
-- Bloquear ip especifico
-$ sudo ufw deny from 203.0.113.4 -> Define um ip especifico para negar,o ip deve ser trocado pelo ip real que você quer bloquear
-
-$ sudo ufw allow www -> Permite acesso a todas as páginas www
-$ sudo ufw allow 80/tcp -> Para permitir acesso a porta 80 (permitir conexão http do apache e nginx)
-$ sudo ufw allow ftp || sudo ufw allow 21/tcp -> Para permitir conexões FTP
-
-## Serviço de Arquivos FPT
-
-Antes de rodar o vagrant instale o Ansible com o comando: sudo apt get ansible
-
-Com a vm rodando acesse a página com o ip 192.168.56.56 
-
-Para conectar ao servidor de arquivos utilize um client como Filezilla (https://filezilla-project.org)
-
-    - Dentro do Filezilla vá para File > Site Manager
-    - Estando lá clique em New Site
-    - Selecione TLS explícito nas opções de criptografia
-    - Utilize os seguintes dados nos campos:
-    - Host: 192.168.56.56
-     - Logon Type: Ask Password
-       - User: teste
-    - Inseridos esses dados, clique em Connect e insira a senha "teste"
-    - Para fazer o upload de um arquivo, arraste um arquivo para a janela abaixo de Remote Site
-    - Para fazer o download de um arquivo ou pasta, clique com o botão direito e escolha Download
-    
-## Banco de Dados
-Esta instalado o PHP e o PHPmyadmin
+![GitHub](https://logos-world.net/wp-content/uploads/2020/11/GitHub-Emblem.png) 
