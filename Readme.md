@@ -64,7 +64,7 @@ vagrant up
 Acesse a máquina e certifique que o firewall está ativo
 
 ```vagrant
-vagrant up
+vagrant ssh
 ```
 
 ```vagrant
