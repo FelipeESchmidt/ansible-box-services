@@ -61,6 +61,17 @@ comando
 vagrant up
 ```
 
+Acesse a máquina e certifique que o firewall está ativo
+
+```vagrant
+vagrant ssh
+```
+
+```vagrant
+sudo ufw status
+sudo ufw enable
+```
+
 ## Site
 
 Após o comando vagrant up, um site será disponibilizado no IP: [192.168.60.58](http://192.168.60.58) na porta 80 (HTTP).
@@ -171,22 +182,22 @@ Com a vm rodando acesse a página com o ip 192.168.56.56
 
 - Preparação do UFW
 
-$ sudo nano /etc/default/ufw ## Verificar IPV6 = yes, caso não for, altere.
-$ sudo ufw disable && sudo ufw enable ## Desliga, e Ligar o Firewall para aplicar o ipv6 caso não aplicou alguma modificação
+$ sudo nano /etc/default/ufw -> Verificar IPV6 = yes, caso não for, altere.
+$ sudo ufw disable && sudo ufw enable -> Desliga, e Ligar o Firewall para aplicar o ipv6 caso não aplicou alguma modificação
 
-$ sudo ufw allow ssh || sudo ufw allow 22/tcp ## Ambos tem a mesma função de permitirem conexões por SSH
+$ sudo ufw allow ssh || sudo ufw allow 22/tcp -> Ambos tem a mesma função de permitirem conexões por SSH
 
 - Negar Conexões
 
 - Bloquear todos os ips de SSH
-$ sudo ufw default deny incoming ## Define o firewall para negar todas as conexões de entrada
+$ sudo ufw default deny incoming -> Define o firewall para negar todas as conexões de entrada
 
 - Bloquear ip especifico
-$ sudo ufw deny from 203.0.113.4 ## Define um ip especifico para negar,o ip deve ser trocado pelo ip real que você quer bloquear
+$ sudo ufw deny from 203.0.113.4 -> Define um ip especifico para negar,o ip deve ser trocado pelo ip real que você quer bloquear
 
-$ sudo ufw allow www ## Permite acesso a todas as páginas www
-$ sudo ufw allow 80/tcp ## Para permitir acesso a porta 80 (permitir conexão http do apache e nginx)
-$ sudo ufw allow ftp || sudo ufw allow 21/tcp ## Para permitir conexões FTP
+$ sudo ufw allow www -> Permite acesso a todas as páginas www
+$ sudo ufw allow 80/tcp -> Para permitir acesso a porta 80 (permitir conexão http do apache e nginx)
+$ sudo ufw allow ftp || sudo ufw allow 21/tcp -> Para permitir conexões FTP
 
 ## Serviço de Arquivos FPT
 
