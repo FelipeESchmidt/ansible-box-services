@@ -61,13 +61,14 @@ comando
 vagrant up
 ```
 
-Acesse a máquina e verifique que o firewall está ativo
+Acesse a máquina e certifique que o firewall está ativo
 
 ```vagrant
 vagrant up
 ```
 
 ```vagrant
+sudo ufw status
 sudo ufw enable
 ```
 
