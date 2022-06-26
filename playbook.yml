@@ -275,7 +275,7 @@
     - name: permite conexoes FTP (porta 21) # Permite conexoes FTP (porta 21)
       shell: sudo ufw allow 21
 
-    - name: permite conexões por SSH # Permite conexões por SSH
+    - name: bloqueia conexões por SSH # Bloqueia conexões por SSH
       shell: sudo ufw deny 22
 
     - name: permite conexões por TCP # Permite conexões por TCP
