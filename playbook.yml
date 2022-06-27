@@ -290,8 +290,23 @@
     - name: permite acesso a porta 80 # Permite acesso à porta 80
       shell: sudo ufw allow 80
 
+    - name: permite acesso a porta 137 # Permite acesso à porta 137
+      shell: sudo ufw allow 137
+
+    - name: permite acesso a porta 138 # Permite acesso à porta 138
+      shell: sudo ufw allow 138
+
+    - name: permite acesso a porta 139 # Permite acesso à porta 139
+      shell: sudo ufw allow 139
+
     - name: permite conexoes HTTPS # Permite conexoes HTTPS
       shell: sudo ufw allow 443
+
+    - name: permite conexoes SMB # Permite conexoes SMB
+      shell: sudo ufw allow 445
+
+    - name: permite acesso a porta 990 # permite acesso a porta 990
+      shell: sudo ufw allow 990
 
     - name: permite conexoes PROXY # Permite conexoes PROXY
       shell: sudo ufw allow 3128
