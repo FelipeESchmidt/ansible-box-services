@@ -275,8 +275,8 @@
     - name: permite conexoes FTP (porta 21) # Permite conexoes FTP (porta 21)
       shell: sudo ufw allow 21
 
-    - name: bloqueia conexões por SSH # Bloqueia conexões por SSH
-      shell: sudo ufw allow 22
+    #- name: bloqueia conexões por SSH # Bloqueia conexões por SSH
+    #  shell: sudo ufw deny 22
 
     - name: permite conexões por TCP # Permite conexões por TCP
       shell: sudo ufw allow 23
@@ -318,7 +318,7 @@
       shell: sudo ufw logging on high
 
     - name: Inicia o firewall # Inicia o firewall
-      shell: sudo ufw enable
+      shell: sudo ufw disable
 
 #----------------------------------------------------------------------------------------------------------------------------------------------
 
