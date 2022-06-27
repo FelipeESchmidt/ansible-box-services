@@ -239,11 +239,7 @@ Inseridos esses dados, clique em Connect e insira a senha "adUser"
 
 
 
-**Regra 2:** Limitar a taxa de transferência, em bytes por segundo, para usuários logados.
-
-***Usuário para teste:***
- user: adUser
- senha: adUser
+**Regra 2:** Bloquear downloads.
 
 **Regra 3:** Bloquear certas extensões de arquivos e também uma lista de nomes de pastas/arquivos que será bloqueada.
 
