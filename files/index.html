@@ -199,7 +199,7 @@
           </p>
           Implementação:
           <p class="regra">
-            acl limite_tempo time MTWHF 08:00-17:00 <br />http_access deny
+            acl limite_tempo time MTWHFSU 08:00-17:00 <br />http_access deny
             rede_interna SITES_NEGADOS limite_tempo<br />
             http_access deny rede_interna PALAVRAS_NEGADAS limite_tempo
           </p>
@@ -212,7 +212,7 @@
             delay_pools 1<br />
             delay_class 1 1<br />
             delay_access 1 allow all<br />
-            delay_parameters 1 254000/254000<br />
+            delay_parameters 1 2540000/2540000<br />
           </p>
         </div>
       </section>
@@ -255,6 +255,12 @@
             <p class="regra">
               header_checks = regexp:/etc/postfix/files_extensions_check.lst<br />
               postmap /etc/postfix/files_extensions_check.lst<br />
+            </p>
+            <p class="descricao">Teste com:</p>
+            <p class="regra">
+              Entre na pasta ->files/test-files<br />
+              $ echo "Mensagem" | mutt -s "Subject" vagrant@192.168.60.58:25 -a
+              ./some.exe<br />
             </p>
             <p class="descricao">
               <br /><b>Regra 3: </b>Limitar a quantidade de remetentes para um
